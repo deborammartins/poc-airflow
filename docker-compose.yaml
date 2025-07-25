@@ -1,0 +1,10 @@
+version: '3'
+services:
+  database:
+    ports:
+      - "5432:5432"  # expõe a porta 5432 do container na porta 5433 da máquina host
+
+  webserver:
+    ports:
+      - "8084:8080"
+
