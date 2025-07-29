@@ -88,8 +88,8 @@ def get_issues_jira():
         "DT_EXTRACAO": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
 
-    #output_path = "/tmp/issues.csv"
-    #df.to_csv(output_path, index=False)
-    #logging.info(f"Arquivo CSV salvo com sucesso em {output_path}.")
+    output_path = "/tmp/issues.csv"
+    df.to_csv(output_path, index=False)
+    logging.info(f"Arquivo CSV salvo com sucesso em {output_path}.")
 
     return None
