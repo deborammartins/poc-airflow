@@ -1,5 +1,6 @@
 from google.cloud import pubsub_v1
 from datetime import datetime, timezone
+from google.oauth2 import service_account
 import json
 
 def mensagem_pubsub(project_id: str, topic_id: str, mensagem: dict = None):
@@ -14,8 +15,11 @@ def mensagem_pubsub(project_id: str, topic_id: str, mensagem: dict = None):
     Returns:
         str: ID da mensagem publicada.
     """
+    credentials = service_account.Credentials.from_service_account_file(
+        "/usr/local/airflow/include/credentials.json"
+    )
 
-    publisher = pubsub_v1.PublisherClient()
+    publisher = pubsub_v1.PublisherClient(credentials=credentials)
     topic_path = publisher.topic_path(project_id, topic_id)
 
     if mensagem is None:

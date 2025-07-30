@@ -1,47 +1,57 @@
-import base64
 import json
 from google.cloud import pubsub_v1
+from google.oauth2 import service_account
 from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
 
-def consume_and_insert(project_id: str, subscription_id: str, table_id: str, gcp_conn_id: str):
+def consume_and_insert(project_id, subscription_id, table_id, gcp_conn_id="connection_bq", max_messages=10):
     """
-    Consome mensagens do Pub/Sub e as insere no BigQuery.
+    Consome mensagens do Pub/Sub em batch e insere no BigQuery.
 
     Args:
-        project_id (str): ID do projeto GCP.
+        project_id (str): ID do projeto do Google Cloud.
         subscription_id (str): ID da assinatura do Pub/Sub.
-        table_id (str): ID da tabela BigQuery no formato 'dataset.table'.
-        gcp_conn_id (str): ID da conexão GCP configurada no Airflow.    
+        table_id (str): ID da tabela do BigQuery onde inserir os dados.
+        gcp_conn_id (str): ID da conexão do Airflow para o BigQuery.
+        max_messages (int): Quantidade máxima de mensagens a puxar em um lote.
     """
 
-    # Cria client BigQuery a partir da connection do Airflow
-    bq_hook = BigQueryHook(gcp_conn_id=gcp_conn_id, use_legacy_sql=False)
-    bq_client = bq_hook.get_client()
-
-    subscriber = pubsub_v1.SubscriberClient()
+    # Configura o cliente do Pub/Sub com as credenciais
+    credentials = service_account.Credentials.from_service_account_file(
+        "/usr/local/airflow/include/credentials.json"
+    )
+    subscriber = pubsub_v1.SubscriberClient(credentials=credentials)
     subscription_path = subscriber.subscription_path(project_id, subscription_id)
 
-    def callback(message):
-        try:
-            data = base64.b64decode(message.data).decode("utf-8")
-            row = json.loads(data)
+    # Puxa mensagens em batch
+    response = subscriber.pull(subscription=subscription_path, max_messages=max_messages)
 
-            # Inserindo a mensagem no BigQuery
-            errors = bq_client.insert_rows_json(table_id, [row])
+    if not response.received_messages:
+        print("Nenhuma mensagem para processar.")
+        return
+
+    ack_ids = []
+    hook = BigQueryHook(gcp_conn_id=gcp_conn_id)
+    client = hook.get_client()
+
+    for msg in response.received_messages:
+        try:
+            print(f"Recebida mensagem: {msg.message.data}")
+            payload = msg.message.data.decode("utf-8")
+            row = json.loads(payload)
+
+            errors = client.insert_rows_json(table_id, [row])
             if errors:
                 print(f"Erro ao inserir: {errors}")
             else:
                 print(f"Inserido: {row}")
-                message.ack()
+
+            ack_ids.append(msg.ack_id)
+
         except Exception as e:
-            print(f"Falha: {e}")
-            message.nack()
+            print(f"Erro ao processar mensagem: {e}")
 
-    streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)
-    print(f"Ouvindo {subscription_path}...")
+    # Acknowledge para liberar as mensagens processadas
+    if ack_ids:
+        subscriber.acknowledge(subscription=subscription_path, ack_ids=ack_ids)
+        print(f"Ack das mensagens: {len(ack_ids)}")
 
-    try:
-        streaming_pull_future.result(timeout=30)
-    except Exception as e:
-        streaming_pull_future.cancel()
-        print(f"Encerrado: {e}")

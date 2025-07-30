@@ -4,7 +4,7 @@
 # depends_on: [create_subscription]
 # ---
 
-from dags.scripts.dag_pubsub_bq.task_mensagem import mensagem_pubsub
+from dags.scripts.dag_pubsub_bq.task_mensagem_pubsub import mensagem_pubsub
 
 def main():
 

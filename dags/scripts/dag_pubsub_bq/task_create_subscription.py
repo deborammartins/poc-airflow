@@ -1,21 +1,20 @@
 from google.cloud import pubsub_v1
+from google.oauth2 import service_account
 
 def create_subscription(project_id: str, topic_id: str, subscription_id: str):
-    subscriber = pubsub_v1.SubscriberClient()
-    topic_path = subscriber.topic_path(project_id, topic_id)
+    credentials = service_account.Credentials.from_service_account_file(
+        "/usr/local/airflow/include/credentials.json"
+    )
+    subscriber = pubsub_v1.SubscriberClient(credentials=credentials)
+    publisher = pubsub_v1.PublisherClient(credentials=credentials)
+
+    topic_path = publisher.topic_path(project_id, topic_id)
     subscription_path = subscriber.subscription_path(project_id, subscription_id)
 
     try:
         subscriber.create_subscription(
-            request={
-                "name": subscription_path,
-                "topic": topic_path,
-                "ack_deadline_seconds": 30,
-            }
+            name=subscription_path, topic=topic_path
         )
-        print(f"Subscription criada: {subscription_path}")
+        print(f"Subscrição criada: {subscription_path}")
     except Exception as e:
-        if "AlreadyExists" in str(e):
-            print(f"Subscription '{subscription_id}' já existe.")
-        else:
-            raise
+        print(f"Erro ao criar subscrição: {e}")

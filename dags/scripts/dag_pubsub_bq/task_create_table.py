@@ -8,6 +8,6 @@ def create_table(table_id: str, schema: dict):
 
     hook = BigQueryHook(gcp_conn_id="connection_bq")
     client = hook.get_client()
-    table = bigquery.Table(table_id, schema=[bigquery.SchemaField(**field) for field in schema])
+    table = bigquery.Table(table_id, schema=schema)
     client.create_table(table, exists_ok=True)
     print(f"Tabela criada: {table.full_table_id}")
