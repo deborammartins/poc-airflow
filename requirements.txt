@@ -4,5 +4,5 @@ pandas
 google-cloud-bigquery
 requests
 gusty
-
-
+google-cloud-pubsub
+apache-airflow-providers-google

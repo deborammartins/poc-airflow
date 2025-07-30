@@ -10,3 +10,10 @@ webserver_config.py
 airflow.cfg
 airflow.db
 issues.csv
+include/
+lib/
+logs/
+plugins/
+tests/
+bin/
+lib/python3.12/

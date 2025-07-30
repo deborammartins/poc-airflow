@@ -1,5 +1,5 @@
 from airflow.decorators import dag
-from dags.scripts.task_get_issues_jira import get_issues_jira
+from dags.scripts.dag_jira.task_get_issues_jira import get_issues_jira
 
 
 @dag(
