@@ -1,0 +1,33 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryIntervalCheckOperator
+doc_md: |
+  Validação de Intervalo de Métricas.
+  Verifica se as métricas de hoje para a tabela de destino estão dentro de um 
+  intervalo aceitável em comparação com um período histórico.
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# Tabela onde a verificação será executada.
+table: "abc-projeto.DS_DATASET.TR_TABELA"
+
+# Coluna de data/timestamp usada para filtrar o período atual vs. o histórico.
+date_filter_column: DT_EXTRACAO
+
+# Quantos dias para trás usar como base para a média histórica.
+days_back: -2
+
+# O dicionário que define a métrica a ser calculada e seu limiar de tolerância.
+metrics_thresholds:
+  'COUNT(*)': 
+    min_threshold: 10 # Deve ter pelo menos 10 linhas
+    max_threshold: 100 # No máximo, 100 linhas
+
+# Define o uso do GoogleSQL (SQL padrão)
+use_legacy_sql: false
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+

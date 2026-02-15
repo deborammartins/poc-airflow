@@ -1,0 +1,49 @@
+operator: airflow.providers.google.cloud.transfers.gcs_to_bigquery.GCSToBigQueryOperator
+doc_md: |
+  Carrega dados dos arquivos no bucket para a tabela no BigQuery.
+
+task_id: task_gcs_insert_data_file_into_bq_table
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+
+# Auto detecção do schema. Padrão: false
+autodetect: false
+
+# Bucket onde o arquivo se encontra
+bucket: "{{ params.bucket }}"
+
+# Nome do arquivo no bucket
+source_objects: "{{ params.file_name }}"
+
+# Caminho completo da tabela em que os dados serão inseridos
+destination_project_dataset_table: "{{ params.project_id }}.{{ params.dataset_id }}.{{ params.table_id }}"
+
+# Bucket que contém o schema da tabela
+schema_object_bucket: "{{ params.schema_object_bucket }}"
+
+# Nome do arquivo do schema
+schema_object: "{{ params.schema_object }}"
+
+# Formato do arquivo que contém os dados. Aceita os formatos  ['CSV', 'NEWLINE_DELIMITED_JSON', 'AVRO', 'GOOGLE_SHEETS', 'DATASTORE_BACKUP', 'PARQUET', 'ORC']
+source_format: "CSV"
+
+# Caractere delimitador do arquivo
+field_delimiter: ","
+
+# Define como os dados serão gravados na tabela. Temos as seguintes opções:
+#   - WRITE_TRUNCATE: Este valor especifica que a operação de gravação deve substituir a tabela inteira,
+#   - WRITE_APPEND: Os dados que já estão na tabela são preservados, e as novas linhas são adicionadas ao final,
+#   - WRITE_EMPTY: Esta opção exige que a tabela de destino esteja vazia antes que os dados possam ser carregados. 
+#        Se a tabela já contiver quaisquer dados, a tarefa de carregamento falhará. 
+write_disposition: "WRITE_APPEND"
+
+# Quantas linhas de cabeçalho o arquivo tem
+skip_leading_rows: 1
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+

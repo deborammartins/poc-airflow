@@ -1,0 +1,16 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryGetDataOperator
+doc_md: |
+  Extrai dados da tabela e envia via XCom.
+
+table_project_id: "{{ params.project_id }}"
+dataset_id: "{{ params.dataset_id }}"
+table_id: "{{ params.table_id }}"
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+trigger_rule: all_success
+
+# Parâmetros a serem definidos neste arquivo de task
+max_results: 5
+selected_fields: "ASSET_KEY, LABEL"
+
+dependencies:
+  - task_bq_transfer_bigquery_to_gcs

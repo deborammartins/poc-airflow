@@ -1,0 +1,21 @@
+description: DAG modelo criada para exemplificar operações de comandos bash.
+schedule_interval: null
+start_date: !days_ago 1
+catchup: false
+
+default_args:
+  owner: deboramm
+  depends_on_past: false
+  email_on_failure: false
+  email_on_retry: false
+  retries: 0
+  retry_delay: !timedelta
+    minutes: 5
+
+tags:
+  - "modelo:Operações Bash"
+
+params:
+  gcp_conn_id: "google-cloud-default"
+  bash_script: "bash_script.sh"
+

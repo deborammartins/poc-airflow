@@ -1,0 +1,33 @@
+description: DAG modelo criada para inserção de dados no sandbox de engenharia
+schedule_interval: null
+start_date: !days_ago 1
+catchup: false
+
+default_args:
+  owner: deboramm
+  depends_on_past: false
+  email_on_failure: false
+  email_on_retry: false
+  retries: 0
+  retry_delay: !timedelta
+    minutes: 5
+
+tags:
+  - "modelo:Ingestão Arquivos"
+
+params:
+  project_id: "composer"
+  location: "us-central1"
+  dataset_id: "DS_EXEMPLOS"
+  table_id: "TB_EXEMPLO_INGESTAO"
+  gcp_conn_id: "google-cloud-default"
+  if_exists: "ignore"
+  bucket: "bucket-composer-arquivos"
+  file_name: "COMPOSER_FILES/file_data.csv"
+  file_format: "csv"
+  gcs_schema_object: "gs://bucket-composer-arquivos/COMPOSER_SCHEMAS/schema_file.json"
+  gcs_schema_bucket: "bucket-composer-arquivos"
+  schema_file_name: "COMPOSER_SCHEMAS/schema_file.json"
+  schema_object_bucket: "bucket-composer-arquivos"
+  schema_object: "COMPOSER_SCHEMAS/schema_file.json"
+  store_procedure: 'CALL `composer.DS_EXEMPLOS.SP_TR_DADOS_COMPOSER`();'

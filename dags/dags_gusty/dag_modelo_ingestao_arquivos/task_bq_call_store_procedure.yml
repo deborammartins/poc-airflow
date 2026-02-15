@@ -1,0 +1,16 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryInsertJobOperator
+doc_md: |
+  ### Inicia um Job Genérico no BigQuery
+  Inicia um job assíncrono no BigQuery. Executa uma query SQL definida no parâmetro `sql_query` da DAG.
+  Ideal para chamar Stored Procedures, DML (MERGE, UPDATE, DELETE) ou CTAS.
+
+configuration:
+  query:
+      query: "{{ params.store_procedure }}"
+      use_legacy_sql: false
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+location: "US"
+trigger_rule: all_success
+
+dependencies:
+  - task_gcs_insert_data_file_into_bq_table

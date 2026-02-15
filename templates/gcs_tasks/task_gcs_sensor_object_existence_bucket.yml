@@ -1,0 +1,29 @@
+operator: airflow.providers.google.cloud.sensors.gcs.GCSObjectExistenceSensor
+doc_md: |
+  Monitora se um objeto existe no bucket.
+
+task_id: task_gcs_sensor_object_existence_bucket
+
+# Bucket onde o objeto se encontra
+bucket: "{{ params.bucket }}"
+
+# Arquivo a ser monitorado
+object: "{{ params.file_name }}"
+
+############################################# Parâmetros específicos para sensores ######################################################
+
+# Tempo máximo em segundos que o sensor irá esperar pela condição se tornar verdadeira
+timeout: 200 
+
+# Define o intervalo em segundos entre cada verificação da condição
+poke_interval: 60
+
+# Como o sensor se comporta enquanto espera entre as verificações. 
+# reschedule -> O sensor libera o slot de worker após uma verificação malsucedida
+# poke -> O sensor ocupa um slot de worker do Airflow durante todo o tempo de espera
+mode: "reschedule"
+
+# Controla o que acontece se o sensor atingir o timeout
+# true -> a task será marcada como "pulada" (skipped)
+# false -> a task será marcada como fail
+soft_fail: false

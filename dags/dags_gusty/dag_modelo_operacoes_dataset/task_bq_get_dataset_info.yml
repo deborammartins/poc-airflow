@@ -1,0 +1,11 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryGetDatasetOperator
+doc_md: |
+  Obtém informações de um dataset específico.
+  
+project_id: "{{ params.project_id }}"
+dataset_id: "{{ params.dataset_id }}"
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_create_empty_dataset

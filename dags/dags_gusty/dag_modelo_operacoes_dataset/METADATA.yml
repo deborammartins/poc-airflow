@@ -1,0 +1,23 @@
+description: DAG modelo criada para exemplificar operações em datasets no BigQuery.
+schedule_interval: null
+start_date: !days_ago 1
+catchup: false
+
+default_args:
+  owner: data-eng
+  depends_on_past: false
+  email_on_failure: false
+  email_on_retry: false
+  retries: 0
+  retry_delay: !timedelta
+    minutes: 5
+
+tags:
+  - "project:abc-sbx-engenhariadados"
+  - "owner:Engenharia de Dados"
+  - "modelo:Operações de Datasets"
+
+params:
+  gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+  project_id: "abc-sbx-engenhariadados"
+  dataset_id: "DS_EXEMPLO_DATASET"

@@ -1,0 +1,26 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryGetDatasetOperator
+doc_md: |
+  Obtém as seguintes informações de um dataset específico:
+    - ID do Dataset: O nome exclusivo do dataset,
+    - ID do Projeto: O projeto do Google Cloud ao qual o dataset pertence,
+    - Location: A região geográfica onde os dados estão armazenados,
+    - Friendly Name: Um nome legível para humanos, se definido,
+    - Descrição: Uma descrição do conteúdo do dataset,
+    - Labels: Pares de chave-valor para organizar e filtrar datasets,
+    - Controle de Acesso: Uma lista de regras que definem quem tem permissão para acessar ou modificar o dataset,
+    - Data de Criação: O timestamp de quando o dataset foi criado,
+    - Data da Última Modificação: O timestamp da última alteração no dataset,
+    - Expiração de Tabela Padrão: O tempo de vida padrão para tabelas criadas neste dataset.
+
+# Projeto onde o dataset se encontra  
+project_id: "{{ params.project_id }}"
+
+# Nome do dataset a se obter informações
+dataset_id: "{{ params.dataset_id }}"
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+

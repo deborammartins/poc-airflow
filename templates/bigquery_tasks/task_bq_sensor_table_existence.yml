@@ -1,0 +1,34 @@
+operator: airflow.providers.google.cloud.sensors.bigquery.BigQueryTableExistenceSensor
+doc_md: |
+  Monitora a existência da tabela no BigQuery.
+
+task_id: task_gcs_sensor_table_existence
+# Projeto onde a tabela se encontra  
+project_id: "{{ params.project_id }}"
+
+# Dataset onde a tabela se encontra  
+dataset_id: "{{ params.dataset_id }}"
+
+# Tabela a ser monitorada
+table_id: "{{ params.table_id }}"
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+############################################# Parâmetros específicos para sensores ######################################################
+
+# Tempo máximo em segundos que o sensor irá esperar pela condição se tornar verdadeira
+timeout: 200 
+
+# Define o intervalo em segundos entre cada verificação da condição
+poke_interval: 60
+
+# Como o sensor se comporta enquanto espera entre as verificações. 
+# reschedule -> O sensor libera o slot de worker após uma verificação malsucedida
+# poke -> O sensor ocupa um slot de worker do Airflow durante todo o tempo de espera
+mode: "reschedule"
+
+# Controla o que acontece se o sensor atingir o timeout
+# true -> a task será marcada como "pulada" (skipped)
+# false -> a task será marcada como fail
+soft_fail: false

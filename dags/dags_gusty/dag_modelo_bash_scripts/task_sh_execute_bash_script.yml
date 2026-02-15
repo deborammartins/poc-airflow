@@ -1,0 +1,4 @@
+operator: airflow.providers.standard.operators.bash.BashOperator
+doc_md: |
+  Executa um script bash
+bash_command: "bash {{ dag.folder }}/{{ dag.dag_id }}/scripts/{{ params.bash_script }}"

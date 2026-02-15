@@ -1,0 +1,14 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryDeleteTableOperator
+doc_md: |
+  Cria uma task que deleta a tabela no BigQuery.
+
+# Caminho completo da tabela a ser deletada (project.dataset.table)
+deletion_dataset_table: "{{ params.deletion_dataset_table }}"
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+

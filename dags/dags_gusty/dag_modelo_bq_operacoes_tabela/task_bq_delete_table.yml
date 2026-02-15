@@ -1,0 +1,10 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryDeleteTableOperator
+doc_md: |
+  Deleta a tabela no BigQuery.
+
+deletion_dataset_table: "{{ params.deletion_dataset_table }}"
+location: "US"
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_extract_data_from_table

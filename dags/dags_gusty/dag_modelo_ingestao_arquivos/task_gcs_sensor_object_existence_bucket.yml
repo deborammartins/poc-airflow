@@ -1,0 +1,17 @@
+operator: airflow.providers.google.cloud.sensors.gcs.GCSObjectExistenceSensor
+doc_md: |
+  Monitora se um objeto existe no bucket.
+
+task_id: task_gcs_sensor_object_existence_bucket
+# Bucket onde o objeto se encontra
+bucket: "{{ params.bucket }}"
+
+# Arquivo a ser monitorado
+object: "{{ params.file_name }}"
+
+# Parâmetros de sensores que devem sempre ser configurados no arquivo da task
+google_cloud_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+timeout: 200 
+poke_interval: 60
+mode: "reschedule"
+soft_fail: True

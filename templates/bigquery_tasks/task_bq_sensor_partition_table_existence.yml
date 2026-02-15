@@ -1,0 +1,37 @@
+operator: airflow.providers.google.cloud.sensors.bigquery.BigQueryTablePartitionExistenceSensor
+doc_md: |
+  Verifica se a tabela contém a data particionada especificada.
+
+task_id: task_gcs_sensor_partition_table_existence
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# Projeto onde a tabela com a partição se encontra
+project_id: "abc-projeto"
+
+# Dataset onde a tabela com a partição se encontra
+dataset_id: "DS_DATASET"
+
+# Tabela com a partição
+table_id: "TR_TABELA"
+
+# Data que será utilizada na verificação
+partition_id: "20260210" # Representa a data '2026-02-10'
+
+############################################# Parâmetros específicos para sensores ######################################################
+
+# Tempo máximo em segundos que o sensor irá esperar pela condição se tornar verdadeira
+timeout: 200 
+
+# Define o intervalo em segundos entre cada verificação da condição
+poke_interval: 60
+
+# Como o sensor se comporta enquanto espera entre as verificações. 
+# reschedule -> O sensor libera o slot de worker após uma verificação malsucedida
+# poke -> O sensor ocupa um slot de worker do Airflow durante todo o tempo de espera
+mode: "reschedule"
+
+# Controla o que acontece se o sensor atingir o timeout
+# true -> a task será marcada como "pulada" (skipped)
+# false -> a task será marcada como fail
+soft_fail: false

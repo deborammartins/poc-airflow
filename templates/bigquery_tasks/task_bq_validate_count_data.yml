@@ -1,0 +1,26 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryValueCheckOperator
+doc_md: |
+  ## Validação de Contagem de Linhas.
+  Verifica se a condição "a tabela tem mais de 10 linhas" é verdadeira.
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# Query de validação
+sql: |
+  SELECT COUNT(*) > 10
+  FROM `abc-sbx-engenhariadados.DS_EXEMPLOS_TASK_COMPOSER.TR_DADOS_COMPOSER`
+
+# A tarefa passará se o resultado da SQL for igual ao pass_value 
+pass_value: False
+
+# Define o uso do GoogleSQL (SQL padrão)
+use_legacy_sql: false
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+

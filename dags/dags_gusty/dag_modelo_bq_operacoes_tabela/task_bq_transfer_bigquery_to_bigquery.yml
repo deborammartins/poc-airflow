@@ -1,0 +1,18 @@
+operator: airflow.providers.google.cloud.transfers.bigquery_to_bigquery.BigQueryToBigQueryOperator
+doc_md: |
+  Transfere dados de uma tabela para outra.
+
+source_project_dataset_tables: "{{ params.source_project_dataset_tables }}"
+destination_project_dataset_table: "{{ params.destination_project_dataset_table }}"
+trigger_rule: all_success
+
+# Parâmetros a serem definidos neste arquivo de task
+project_id: "abc-sbx-engenhariadados"
+write_disposition: "WRITE_APPEND"
+location: "US"
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+
+dependencies:
+  - task_bq_update_table_metadata
+
+

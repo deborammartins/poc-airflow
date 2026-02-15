@@ -1,0 +1,14 @@
+operator: airflow.providers.google.cloud.sensors.bigquery.BigQueryTableExistenceSensor
+doc_md: |
+  Monitora a existência da tabela no BigQuery.
+  
+project_id: "{{ params.project_id }}"
+dataset_id: "{{ params.dataset_id }}"
+table_id: "{{ params.table_id }}"
+
+# Parâmetros a serem alterados neste arquivo de task
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+timeout: 200
+poke_interval: 60
+mode: "poke"
+soft_fail: false

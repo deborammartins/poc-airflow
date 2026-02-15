@@ -1,0 +1,30 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryUpdateTableOperator
+doc_md: |
+  Atualiza os seguintes metadados da tabela: 
+    - Name  
+    - Description
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+
+# Projeto onde a tabela se encontra  
+project_id: "{{ params.project_id }}"
+
+# Dataset onde a tabela se encontra
+dataset_id: "{{ params.dataset_id }}"
+
+# Tabela a ter os metadados atualizados
+table_id: "{{ params.table_id }}"
+
+# Parâmetros da tabela
+table_resource:
+  # Novo nome
+  friendly_name: "{{ params.new_table_name }}"
+  # Nova descrição
+  description: "{{ params.new_table_description }}"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+
+

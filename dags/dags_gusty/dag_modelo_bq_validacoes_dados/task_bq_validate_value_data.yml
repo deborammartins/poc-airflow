@@ -1,0 +1,22 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryValueCheckOperator
+doc_md: |
+  Validação de Valor Específico com SQL.
+  Executa uma query SQL e compara o resultado com um valor esperado.
+
+# A query SQL a ser executada. O resultado desta query será verificado.
+sql: |
+    SELECT LABEL FROM `abc-sbx-engenhariadados.DS_EXEMPLOS_TASK_COMPOSER.TR_DADOS_COMPOSER` WHERE ASSET_KEY = 'TEAM-6066'
+
+# O valor que a query deve retornar para que a tarefa passe.
+pass_value: "Dados e IA"
+
+# Parâmetro opcional para verificações numéricas.
+# O teste passa se: abs(resultado - pass_value) <= tolerance.
+tolerance: None
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+use_legacy_sql: false 
+location: "US"
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_validate_interval_data

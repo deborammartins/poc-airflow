@@ -1,0 +1,11 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryDeleteDatasetOperator
+doc_md: |
+  Deleta o dataset.
+  
+project_id: "{{ params.project_id }}"
+dataset_id: "{{ params.dataset_id }}"
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_get_dataset_info

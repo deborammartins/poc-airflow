@@ -1,0 +1,19 @@
+operator: airflow.providers.google.cloud.transfers.bigquery_to_gcs.BigQueryToGCSOperator
+doc_md: |
+  Transfere dados de uma tabela para um arquivo no bucket de acordo com a compressão desejada.
+
+source_project_dataset_table: "{{ params.source_project_dataset_table }}"
+destination_cloud_storage_uris: "{{ params.destination_cloud_storage_uris }}"
+
+# Parâmetros a serem definidos neste arquivo de task
+project_id: "abc-sbx-engenhariadados"
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+compression: "NONE"
+export_format: "CSV"
+delimiter: ";"
+location: "US"
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_transfer_bigquery_to_bigquery
+

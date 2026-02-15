@@ -1,0 +1,26 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryCreateTableOperator
+doc_md: |
+  ### Criação de Tabela com Schema Dinâmico
+  Cria uma tabela no BigQuery com base na configuração 'table_resource'.
+
+# Projeto onde a tabela será criada
+project_id: "{{ params.project_id }}"
+
+# Dataset onde a tabela será criada
+dataset_id: "{{ params.dataset_id }}"
+
+# Tabela a ser criada
+table_id: "{{ params.table_id }}"
+
+# Schema a partir do qual a tabela será criada
+table_resource: {}
+
+# Caminho do arquivo que contém o schema da tabela no bucket
+gcs_schema_object: "{{ params.gcs_schema_object }}"
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+

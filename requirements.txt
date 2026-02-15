@@ -1,8 +1,1 @@
-apache-airflow-providers-atlassian-jira[jira]
-jira==3.4.0
-pandas
-google-cloud-bigquery
-requests
-gusty
-google-cloud-pubsub
-apache-airflow-providers-google
+gusty==0.23.1

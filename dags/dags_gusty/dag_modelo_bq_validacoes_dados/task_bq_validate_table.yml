@@ -1,0 +1,16 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryTableCheckOperator
+doc_md: |
+  Valida se a tabela atende aos critérios desejados.
+
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+project_id: "abc-sbx-engenhariadados"
+table: "abc-sbx-engenhariadados.DS_EXEMPLOS_TASK_COMPOSER.TR_DADOS_COMPOSER"
+checks: 
+  asset_key_not_null_check: # Nome da validação
+    check_statement: "COUNTIF(ASSET_KEY IS NOT NULL) > 0" # Validação
+use_legacy_sql: false
+location: "US"
+
+
+
+

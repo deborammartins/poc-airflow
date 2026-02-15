@@ -1,0 +1,18 @@
+description: DAG modelo criada para exemplificar operações de validações de tabelas, colunas e dados do BigQuery.
+schedule_interval: null
+start_date: !days_ago 1
+catchup: false
+
+default_args:
+  owner: deboramm
+  depends_on_past: false
+  email_on_failure: false
+  email_on_retry: false
+  retries: 0
+  retry_delay: !timedelta
+    minutes: 5
+
+tags:
+  - "modelo:Validações de Dados"
+
+

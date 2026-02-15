@@ -1,0 +1,30 @@
+operator: airflow.providers.google.cloud.transfers.bigquery_to_gcs.BigQueryToGCSOperator
+doc_md: |
+  Copia dados de uma tabela para um arquivo no bucket de acordo com a compressão desejada.
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# Caminho completo da tabela que contém os dados
+source_project_dataset_table: "{{ params.source_project_dataset_table }}"
+
+# URL do bucket onde o arquivo será gerado. Exemplo: "gs://bucket-name/pasta/arquivo.csv"
+destination_cloud_storage_uris: "{{ params.destination_cloud_storage_uris }}"
+
+# Tipo de compressão desejada ()
+compression: "NONE"
+
+# Formato do arquivo a ser exportado.  Aceita os formatos ['CSV', 'NEWLINE_DELIMITED_JSON', 'AVRO', 'GOOGLE_SHEETS', 'DATASTORE_BACKUP', 'PARQUET', 'ORC']
+export_format: "CSV"
+
+# Caractere delimitador do arquivo
+delimiter: ";"
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+
+

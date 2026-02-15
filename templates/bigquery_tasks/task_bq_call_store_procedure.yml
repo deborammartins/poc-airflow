@@ -1,0 +1,22 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryInsertJobOperator
+doc_md: |
+  ### Inicia um Job Genérico no BigQuery
+  Executa uma query SQL definida no parâmetro `query` do operador.
+  Ideal para chamar Stored Procedures, DML (MERGE, UPDATE, DELETE) ou CTAS.
+
+configuration:
+  query:
+      # Procedure a ser executada
+      query: "{{ params.store_procedure }}"
+      # Define o uso do GoogleSQL (SQL padrão)
+      use_legacy_sql: false
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+

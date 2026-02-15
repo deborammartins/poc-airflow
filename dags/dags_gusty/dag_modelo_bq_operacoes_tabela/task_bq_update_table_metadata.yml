@@ -1,0 +1,16 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryUpdateTableOperator
+doc_md: |
+  Atualiza os seguintes metadados da tabela: nome e descrição.
+
+project_id: "{{ params.project_id }}"
+dataset_id: "{{ params.dataset_id }}"
+table_id: "{{ params.table_id }}"
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+table_resource:
+  friendly_name: "{{ params.new_table_name }}"
+  description: "{{ params.new_table_description }}"
+trigger_rule: all_success
+
+dependencies:
+  - task_py_update_schema_table
+

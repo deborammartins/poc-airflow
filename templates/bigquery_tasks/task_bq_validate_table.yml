@@ -1,0 +1,23 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryTableCheckOperator
+doc_md: |
+  Valida se a tabela atende aos critérios desejados.
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# Caminho completo da tabela a ser validada
+table: "abc-projeto.DATASET.TABELA"
+checks: 
+  not_null_check: # Nome da validação
+    check_statement: "COUNTIF(COLUMN IS NULL) = 0" # Validação
+
+# Define o uso do GoogleSQL (SQL padrão)
+use_legacy_sql: false
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+

@@ -1,0 +1,16 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryColumnCheckOperator
+doc_md: |
+  Valida se a coluna 'LABEL' não possui valores nulos.
+
+table: "abc-sbx-engenhariadados.DS_EXEMPLOS_TASK_COMPOSER.TR_DADOS_COMPOSER"
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+use_legacy_sql: false
+location: "US"
+column_mapping: 
+  LABEL: # Nome da coluna a ser validada
+    null_check: # Nome da validação
+      equal_to: 0 # Condição de aprovação: a contagem de nulos deve ser igual a 0 para passar
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_validate_table

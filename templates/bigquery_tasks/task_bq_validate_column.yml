@@ -1,0 +1,25 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryColumnCheckOperator
+doc_md: |
+  Valida se a coluna especificada não possui valores nulos.
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# Caminho completo da tabela que contém a coluna a ser validada
+table: "abc-projeto.DS_DATASET.TR_TABELA"
+
+# Mapeamento da coluna
+column_mapping: 
+  LABEL: # Nome da coluna a ser validada
+    null_check: # Nome da validação
+      equal_to: 0 # Condição de aprovação: a contagem de nulos deve ser igual a 0 para passar
+
+# Define o uso do GoogleSQL (SQL padrão)
+use_legacy_sql: false
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+

@@ -1,0 +1,29 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryValueCheckOperator
+doc_md: |
+  Validação de Valor Específico com SQL.
+  Executa uma query SQL e compara o resultado com um valor esperado.
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "google-cloud-default-abc-projeto"
+
+# A query SQL a ser executada. O resultado desta query será verificado.
+sql: |
+    SELECT COLUNA FROM `abc-projeto.DS_DATASET.TR_TABELA` WHERE COLUNA_1 = 'TEAM-6066'
+
+# O valor que a query deve retornar para que a tarefa passe.
+pass_value: "Dados e IA"
+
+# Parâmetro opcional para verificações numéricas.
+# O teste passa se: abs(resultado - pass_value) <= tolerance.
+tolerance: None
+
+# Define o uso do GoogleSQL (SQL padrão)
+use_legacy_sql: false
+
+# Localização geográfica do dataset. Padrão "US"
+location: "US"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+

@@ -1,0 +1,8 @@
+operator: airflow.operators.bash.BashOperator
+doc_md: |
+    Executa python scripts que se encontram na pasta scripts.
+
+# O comando que será executado no terminal.
+bash_command: >-
+   python /home/airflow/gcs/dags/abc_sbx_engenhariadados/{{ dag.dag_id }}/scripts/{{ params.python_script_1 }}
+  

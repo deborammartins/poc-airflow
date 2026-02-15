@@ -1,0 +1,53 @@
+description: DAG modelo criada para exemplificar operações em tabelas no BigQuery.
+schedule_interval: null
+start_date: !days_ago 1
+catchup: false
+
+default_args:
+  owner: deboramm
+  depends_on_past: false
+  email_on_failure: false
+  email_on_retry: false
+  retries: 0
+  retry_delay: !timedelta
+    minutes: 5
+
+tags:
+  - "modelo:Operações de Tabelas"
+  - "XCom"
+
+params:
+  gcp_conn_id: "google-cloud-default"
+
+  # task_bq_sensor_table_existence
+  project_id: "composer"
+  dataset_id: "DS_EXEMPLOS"
+  table_id: "TB_EXEMPLO"
+
+  # task_bq_create_empty_table
+  gcs_schema_object: "gs://bucket-composer-arquivos/COMPOSER_SCHEMAS/schema_file.json"
+
+  # task_py_read_gcs_file_schema
+  gcs_schema_bucket: "bucket-composer-composer-arquivos"
+  schema_file_name: "COMPOSER_SCHEMAS/new_schema_file.json"
+
+  # task_bq_update_schema_table
+  # Sem parâmetros específicos
+
+  # task_bq_update_table_metadata
+  new_table_name: "TB_EXEMPLO_UPDATE_METADATA"
+  new_table_description: "Tabela de exemplo da task para atualização de metadados."
+
+  # task_bq_transfer_bigquery_to_bigquery
+  source_project_dataset_tables: "composer.DS_EXEMPLOS.TB_EXEMPLO"
+  destination_project_dataset_table: "composer.DS_EXEMPLOS.TB_EXEMPLO_UPDATE_METADATA"
+
+  # task_bq_transfer_bigquery_to_gcs
+  source_project_dataset_table: "composer.DS_EXEMPLOS.TB_EXEMPLO"
+  destination_cloud_storage_uris: "gs://bucket-composer-arquivos/COMPOSER_FILES/data_exemplo.csv"
+
+  # task_bq_extract_data_from_table
+  # Sem parâmetros específicos
+
+  # task_bq_delete_table
+  deletion_dataset_table: "composer.DS_EXEMPLOS.TB_EXEMPLO_CREATE_TABLE"

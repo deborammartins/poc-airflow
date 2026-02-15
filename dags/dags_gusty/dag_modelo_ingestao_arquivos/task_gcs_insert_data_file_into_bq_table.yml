@@ -1,0 +1,25 @@
+operator: airflow.providers.google.cloud.transfers.gcs_to_bigquery.GCSToBigQueryOperator
+doc_md: |
+  Carrega arquivos do GCS para o BigQuery. O schema da tabela de destino é
+  puxado via XCom da tarefa que o gerou.
+
+task_id: task_gcs_insert_data_file_into_bq_table
+autodetect: false
+bucket: "{{ params.bucket }}"
+source_objects: "{{ params.file_name }}"
+destination_project_dataset_table: "{{ params.project_id }}.{{ params.dataset_id }}.{{ params.table_id }}"
+schema_object_bucket: "{{ params.schema_object_bucket }}"
+schema_object: "{{ params.schema_object }}"
+
+# Parâmetros a serem configurados neste arquivo
+# Aceita os formatos  ['CSV', 'NEWLINE_DELIMITED_JSON', 'AVRO', 'GOOGLE_SHEETS', 'DATASTORE_BACKUP', 'PARQUET', 'ORC']
+source_format: "CSV"
+field_delimiter: ","
+write_disposition: "WRITE_APPEND"
+skip_leading_rows: 1
+gcp_conn_id: "google-cloud-default-abc-sbx-engenhariadados"
+location: "US"
+trigger_rule: all_success
+
+dependencies:
+  - task_bq_create_empty_table

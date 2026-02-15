@@ -8,5 +8,8 @@ gusty_dags_path = os.path.join(os.path.dirname(__file__), "dags_gusty")
 create_dags(
     dags_dir=gusty_dags_path,
     caller_env=globals(),  # necessário para o Airflow registrar as DAGs
-    latest_only=False     # desativa o operador LatestOnlyOperator automático
+    description="Loader do Gusty para criar as dags do projeto poc-airflow",
+    default_args={"owner": "data-eng"},
+    catchup=False,
+    latest_only=False
 )

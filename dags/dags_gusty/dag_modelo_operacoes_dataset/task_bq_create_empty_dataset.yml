@@ -1,0 +1,7 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyDatasetOperator
+doc_md: |
+  Cria um dataset vazio.
+  
+project_id: "{{ params.project_id }}"
+dataset_id: "{{ params.dataset_id }}"
+gcp_conn_id: "{{ params.gcp_conn_id }}"

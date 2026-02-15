@@ -1,0 +1,26 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryGetDataOperator
+doc_md: |
+  Cria uma task que obtém dados de uma respectiva tabela e os envia para outra task por XCom.
+
+# Projeto onde a tabela se encontra
+table_project_id: "{{ params.project_id }}"
+
+# Dataset onde a tabela se encontra
+dataset_id: "{{ params.dataset_id }}"
+
+# Tabela a se obter os dados
+table_id: "{{ params.table_id }}"
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "{{ params.gcp_conn_id }}"
+
+# Condição para que esta task seja executada, com base no estado das tasks anteriores
+trigger_rule: all_success
+
+# Número máximo de resultados a serem retornados
+max_results: 5
+
+# Colunas onde os dados se encontram
+selected_fields: "COLUNA_1, COLUNA_2"
+
+

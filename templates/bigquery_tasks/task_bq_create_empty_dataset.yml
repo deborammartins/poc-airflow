@@ -1,0 +1,12 @@
+operator: airflow.providers.google.cloud.operators.bigquery.BigQueryCreateEmptyDatasetOperator
+doc_md: |
+  Cria um dataset vazio.
+
+# Projeto no GCP onde o dataset se encontra  
+project_id: "{{ params.project_id }}"
+
+# Nome do dataset a ser criado
+dataset_id: "{{ params.dataset_id }}"
+
+# Conexão do Composer com o projeto no GCP
+gcp_conn_id: "{{ params.gcp_conn_id }}"
