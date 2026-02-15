@@ -75,6 +75,16 @@ astro dev stop
 
 Este projeto utiliza o Gusty para criação de DAGs a partir de arquivos YAML.
 
+Exemplo de estrutura:
+
+dags/
+ └── dags_gusty/
+      └── my_dynamic_dag/
+            ├── METADATA.yml
+            ├── task_1.yml
+            └── task_2.yml
+
+
 📦 Gerenciamento de Dependências
 
 As dependências Python devem ser adicionadas em: requirements.txt
